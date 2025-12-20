@@ -1,4 +1,4 @@
-'use client';
+GIT 'use client';
 
 import { useState } from 'react';
 import Header from '@/components/Header';
@@ -6,7 +6,8 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { HiLock, HiCheckCircle } from 'react-icons/hi';
+import { HiCheckCircle } from 'react-icons/hi';
+import { FaLock } from 'react-icons/fa';
 
 export default function CheckoutPage() {
   const { t, language } = useLanguage();
@@ -344,7 +345,7 @@ export default function CheckoutPage() {
                           onClick={() => alert(language === 'it' ? 'Ordine completato!' : 'Order completed!')}
                           className="flex-1 bg-burgundy text-white py-3 rounded-lg font-semibold hover:bg-burgundy-dark transition-colors flex items-center justify-center gap-2"
                         >
-                          <HiLock className="w-5 h-5" />
+                          <FaLock className="w-5 h-5" />
                           {language === 'it' ? 'Completa Ordine' : 'Complete Order'}
                         </button>
                       </div>
