@@ -48,6 +48,22 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const productName = language === 'it' ? product.name : product.nameEn;
   const productDescription = language === 'it' ? product.description : product.descriptionEn;
 
+  // Map product category to translation key
+  const getCategoryLabel = (category: string): string => {
+    const categoryMap: Record<string, keyof typeof t.categories> = {
+      'intimo': 'intim',
+      'pigiami': 'pajamas',
+      'calze': 'socks',
+      'beachwear': 'beachwear',
+    };
+    
+    const translationKey = categoryMap[category];
+    if (translationKey && t.categories[translationKey]) {
+      return t.categories[translationKey].category;
+    }
+    return category;
+  };
+
   const handleAddToCart = () => {
     // UI only - no functionality
     alert(language === 'it' 
@@ -71,7 +87,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <li>/</li>
               <li>
                 <Link href={`/categoria/${product.category}`} className="hover:text-burgundy">
-                  {t.categories[product.category as keyof typeof t.categories]?.category || product.category}
+                  {getCategoryLabel(product.category)}
                 </Link>
               </li>
               <li>/</li>
