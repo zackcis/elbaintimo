@@ -58,8 +58,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     };
     
     const translationKey = categoryMap[category];
-    if (translationKey && t.categories[translationKey]) {
-      return t.categories[translationKey].category;
+    if (translationKey) {
+      const categoryData = t.categories[translationKey];
+      if (categoryData && typeof categoryData === 'object' && 'category' in categoryData) {
+        return categoryData.category;
+      }
     }
     return category;
   };
