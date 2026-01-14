@@ -4,6 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
+import PromotionalBanner from '@/components/PromotionalBanner';
+import CategoryNavSidebar from '@/components/CategoryNavSidebar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -158,35 +160,118 @@ export default function CategoryPage({ params }: { params: { category: string } 
           </div>
         </section>
 
-        {/* Sub-Categories */}
+        {/* Promotional Banner Section with Products */}
+        {params.category === 'intimo' && paginatedProducts.length >= 4 && (
+          <section className="bg-white border-b border-gray-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Left: Promotional Banner */}
+                <div className="hidden lg:block">
+                  <PromotionalBanner
+                    image="/media/BID49G019-FI.jpg"
+                    patternText="M"
+                    title="NEW"
+                    subtitle={language === 'it' ? 'SOTTOCOSTO' : 'UNDER COST'}
+                    ctaText={language === 'it' ? 'GUARDA TUTTE LE OFFERTE' : 'SEE ALL OFFERS'}
+                    ctaHref="/categoria/intimo?sort=price-asc"
+                  />
+                </div>
+
+                {/* Right: Featured Products Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  {paginatedProducts.slice(0, 4).map((product) => (
+                    <Link key={product.id} href={`/prodotto/${product.id}`} className="group">
+                      <div className="relative aspect-square overflow-hidden mb-2 bg-white border border-gray-200 rounded-sm group-hover:border-burgundy transition-colors">
+                        <Image
+                          src={product.images[0]}
+                          alt={language === 'it' ? product.name : product.nameEn}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                        />
+                        {product.badge && (
+                          <div className="absolute top-2 left-2 z-10">
+                            <span className={`px-2 py-1 text-xs font-semibold uppercase ${
+                              product.badge === 'NEW' ? 'bg-purple-600 text-white' :
+                              product.badge === 'SALE' ? 'bg-red-600 text-white' :
+                              'bg-green-600 text-white'
+                            }`}>
+                              {product.badge === 'NEW' ? (language === 'it' ? 'Novità!' : 'New!') :
+                               product.badge === 'SALE' ? (language === 'it' ? 'Offerta' : 'Sale') :
+                               (language === 'it' ? 'Spedizione Gratis' : 'Free Shipping')}
+                            </span>
+                          </div>
+                        )}
+                        {product.badge === 'NEW' && (
+                          <div className="absolute top-10 left-2 z-10">
+                            <span className="px-2 py-1 text-xs font-semibold uppercase bg-green-600 text-white">
+                              {language === 'it' ? 'Spedizione Gratis' : 'Free Shipping'}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-700 mb-1 line-clamp-2 min-h-[2.5rem] group-hover:text-burgundy transition-colors">
+                        {language === 'it' ? product.name : product.nameEn}
+                      </p>
+                      <p className="text-sm font-semibold text-gray-900">
+                        €{product.price.toFixed(2).replace('.', ',')}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Sub-Categories with Left-Right Layout */}
         {params.category === 'intimo' && (
-          <section className="py-6 bg-white border-b border-gray-200">
+          <section className="py-12 bg-gray-50 border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex gap-4 overflow-x-auto pb-4">
-                {[
-                  { name: language === 'it' ? 'Reggiseni' : 'Bras', image: '/media/RBD2576937J-FI.jpg', href: '/categoria/intimo' },
-                  { name: language === 'it' ? 'Slip' : 'Panties', image: '/media/RID2576937J-FI.jpg', href: '/categoria/intimo' },
-                  { name: language === 'it' ? 'Body' : 'Bodysuits', image: '/media/BOD2577938J-FI.jpg', href: '/categoria/intimo' },
-                  { name: language === 'it' ? 'Lingerie' : 'Lingerie', image: '/media/SBD2577938J-FI.jpg', href: '/categoria/intimo' },
-                ].map((subcat, index) => (
-                  <Link
-                    key={index}
-                    href={subcat.href}
-                    className="flex-shrink-0 w-32 group"
-                  >
-                    <div className="relative aspect-square rounded-lg overflow-hidden mb-2 border-2 border-gray-200 group-hover:border-burgundy transition-colors">
-                      <Image
-                        src={subcat.image}
-                        alt={subcat.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <p className="text-xs text-center font-medium text-gray-700 group-hover:text-burgundy">
-                      {subcat.name}
-                    </p>
-                  </Link>
-                ))}
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                {/* Left: Subcategory Images (3/4 width) */}
+                <div className="lg:col-span-3">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {[
+                      { name: language === 'it' ? 'Reggiseni Push Up' : 'Push Up Bras', image: '/media/RBD2576937J-FI.jpg', href: '/categoria/intimo?subcategory=pushup' },
+                      { name: language === 'it' ? 'Reggiseni Super Push Up' : 'Super Push Up Bras', image: '/media/RBD2576937J-FI.jpg', href: '/categoria/intimo?subcategory=pushup' },
+                      { name: language === 'it' ? 'Reggiseni a Fascia' : 'Strapless Bras', image: '/media/RBD2576937J-FI.jpg', href: '/categoria/intimo?subcategory=fascia' },
+                      { name: language === 'it' ? 'Reggiseni a Triangolo' : 'Triangle Bras', image: '/media/RBD2576937J-FI.jpg', href: '/categoria/intimo?subcategory=triangolo' },
+                    ].map((subcat, index) => (
+                      <Link
+                        key={index}
+                        href={subcat.href}
+                        className="group"
+                      >
+                        <div className="relative aspect-[2/3] overflow-hidden mb-3 bg-white border border-gray-200 rounded-sm group-hover:border-burgundy transition-colors">
+                          <Image
+                            src={subcat.image}
+                            alt={subcat.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                        </div>
+                        <p className="text-sm text-center font-medium text-gray-700 group-hover:text-burgundy transition-colors">
+                          {subcat.name}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right: Category Navigation Sidebar (1/4 width) */}
+                <div className="lg:col-span-1">
+                  <CategoryNavSidebar
+                    categoryName={language === 'it' ? 'REGGISENI' : 'BRAS'}
+                    categoryHref="/categoria/intimo"
+                    onSortChange={(sort) => {
+                      setSortBy(sort as any);
+                      setCurrentPage(1);
+                    }}
+                    currentSort={sortBy}
+                  />
+                </div>
               </div>
             </div>
           </section>
@@ -364,9 +449,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
                             originalPrice={product.originalPrice ? `€${product.originalPrice.toFixed(2).replace('.', ',')}` : undefined}
                             colors={product.colors}
                             badge={product.badge}
-                            colorSwatches={product.category === 'intimo' 
-                              ? ['#DC143C', '#000000', '#FFFFFF', '#8B0000'].slice(0, product.colors)
-                              : ['#FF69B4', '#000000', '#FFFFFF'].slice(0, product.colors)}
+                            isPack={product.isPack}
+                            packColors={product.packColors}
+                            colorSwatches={product.isPack 
+                              ? product.packColors
+                              : (product.category === 'intimo' 
+                                ? ['#DC143C', '#000000', '#FFFFFF', '#8B0000'].slice(0, product.colors)
+                                : ['#FF69B4', '#000000', '#FFFFFF'].slice(0, product.colors))}
                           />
                         </Link>
                       ))}

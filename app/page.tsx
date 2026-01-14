@@ -4,12 +4,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
+import BrandCarousel from '@/components/BrandCarousel';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -52,6 +53,237 @@ export default function Home() {
                 fill
                 className="object-cover rounded-sm"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Men / Women / Kids Section */}
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Women */}
+              <Link href="/categoria/intimo" className="group relative overflow-hidden rounded-lg aspect-[4/5] bg-gradient-to-br from-pink-50 to-purple-50">
+                <div className="absolute inset-0">
+                  <Image
+                    src="/media/RBD2576937J-FI.jpg"
+                    alt="Women"
+                    fill
+                    className="object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                <div className="relative h-full flex flex-col justify-between p-8 text-white">
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-white/80 mb-2">{language === 'it' ? 'DONNA' : 'WOMEN'}</p>
+                    <h2 className="text-5xl md:text-6xl font-serif font-bold mb-4">
+                      {language === 'it' ? 'SALES' : 'SALES'}
+                    </h2>
+                    <p className="text-base text-white/90 mb-4">
+                      {language === 'it' 
+                        ? 'Scopri la selezione fino a -70%'
+                        : 'Discover the selection up to -70%'}
+                    </p>
+                  </div>
+                  <button className="w-full md:w-auto px-8 py-3 bg-white text-gray-900 font-semibold uppercase tracking-wide hover:bg-gray-100 transition-colors">
+                    {language === 'it' ? 'Saldi Donna' : 'Women\'s Sales'}
+                  </button>
+                </div>
+              </Link>
+
+              {/* Men */}
+              <Link href="/categoria/casual" className="group relative overflow-hidden rounded-lg aspect-[4/5] bg-gradient-to-br from-blue-50 to-cyan-50">
+                <div className="absolute inset-0">
+                  <Image
+                    src="/media/PCD700M949J-FI.jpg"
+                    alt="Men"
+                    fill
+                    className="object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                <div className="relative h-full flex flex-col justify-between p-8 text-white">
+                  <div>
+                    <h2 className="text-5xl md:text-6xl font-serif font-bold mb-4">
+                      {language === 'it' ? 'SALES' : 'SALES'}
+                    </h2>
+                    <p className="text-base text-white/90 mb-4">
+                      {language === 'it' 
+                        ? 'Offerte imbattibili fino a -70%'
+                        : 'Unbeatable offers up to -70%'}
+                    </p>
+                  </div>
+                  <button className="w-full md:w-auto px-8 py-3 bg-white text-gray-900 font-semibold uppercase tracking-wide hover:bg-gray-100 transition-colors">
+                    {language === 'it' ? 'Saldi Uomo' : 'Men\'s Sales'}
+                  </button>
+                </div>
+              </Link>
+
+              {/* Kids */}
+              <Link href="/categoria/casual" className="group relative overflow-hidden rounded-lg aspect-[4/5] bg-gradient-to-br from-yellow-50 to-orange-50">
+                <div className="absolute inset-0">
+                  <Image
+                    src="/media/PCD700M949J-FI.jpg"
+                    alt="Kids"
+                    fill
+                    className="object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                <div className="relative h-full flex flex-col justify-between p-8 text-white">
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-white/80 mb-2">{language === 'it' ? 'BAMBINI' : 'CHILDREN'}</p>
+                    <h2 className="text-5xl md:text-6xl font-serif font-bold mb-4">
+                      {language === 'it' ? 'SALES' : 'SALES'}
+                    </h2>
+                    <p className="text-base text-white/90 mb-4">
+                      {language === 'it' 
+                        ? 'Scopri tutti i prodotti scontati'
+                        : 'Discover all the discounted products'}
+                    </p>
+                  </div>
+                  <div className="flex gap-3 flex-col md:flex-row">
+                    <button className="w-full md:w-auto px-6 py-3 bg-white text-gray-900 font-semibold uppercase tracking-wide hover:bg-gray-100 transition-colors text-sm">
+                      {language === 'it' ? 'Saldi Bambini' : 'Children\'s Sale'}
+                    </button>
+                    <button className="w-full md:w-auto px-6 py-3 border-2 border-white text-white font-semibold uppercase tracking-wide hover:bg-white/10 transition-colors text-sm">
+                      {language === 'it' ? 'Saldi Bambina' : 'Girl\'s Sale'}
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Category Preview Sections */}
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-12">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4 text-center">
+                {language === 'it' ? 'Categorie Popolari' : 'Popular Categories'}
+              </h2>
+            </div>
+
+            {/* Women Categories */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-serif font-bold text-gray-900 mb-6">
+                {language === 'it' ? 'Per Lei' : 'For Her'}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <Link href="/categoria/intimo" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/RBD2576937J-FI.jpg"
+                      alt={language === 'it' ? 'Intimo' : 'Underwear'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Intimo' : 'Underwear'}
+                  </p>
+                </Link>
+                <Link href="/categoria/intimo" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/RBD2578019-FI.jpg"
+                      alt={language === 'it' ? 'Reggiseni' : 'Bras'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Reggiseni' : 'Bras'}
+                  </p>
+                </Link>
+                <Link href="/categoria/pigiami" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/PCD700M949J-FI.jpg"
+                      alt={language === 'it' ? 'Pigiami' : 'Pajamas'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Pigiami' : 'Pajamas'}
+                  </p>
+                </Link>
+                <Link href="/categoria/beachwear" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/BID49G019-FI.jpg"
+                      alt={language === 'it' ? 'Beachwear' : 'Beachwear'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Beachwear' : 'Beachwear'}
+                  </p>
+                </Link>
+              </div>
+            </div>
+
+            {/* Men Categories */}
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-gray-900 mb-6">
+                {language === 'it' ? 'Per Lui' : 'For Him'}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <Link href="/categoria/intimo" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/RBD2576937J-FI.jpg"
+                      alt={language === 'it' ? 'Intimo' : 'Underwear'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Intimo' : 'Underwear'}
+                  </p>
+                </Link>
+                <Link href="/categoria/casual" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/RBD2578019-FI.jpg"
+                      alt={language === 'it' ? 'Boxer' : 'Boxers'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Boxer' : 'Boxers'}
+                  </p>
+                </Link>
+                <Link href="/categoria/pigiami" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/PCD700M949J-FI.jpg"
+                      alt={language === 'it' ? 'Pigiami' : 'Pajamas'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Pigiami' : 'Pajamas'}
+                  </p>
+                </Link>
+                <Link href="/categoria/casual" className="group">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <Image
+                      src="/media/RBD2576937J-FI.jpg"
+                      alt={language === 'it' ? 'Casual' : 'Casual'}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="mt-3 text-center font-medium text-gray-900 group-hover:text-burgundy transition-colors">
+                    {language === 'it' ? 'Casual' : 'Casual'}
+                  </p>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -285,62 +517,7 @@ export default function Home() {
                 {t.brands.subtitle}
               </p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              <div className="aspect-square border border-gray-200 rounded-sm flex items-center justify-center hover:border-burgundy transition-colors cursor-pointer bg-white p-4 overflow-hidden">
-                <Image
-                  src="/brands/c7bb41545211405b46c1874f8a0a82d4.png"
-                  alt="Brand Logo"
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div className="aspect-square border border-gray-200 rounded-sm flex items-center justify-center hover:border-burgundy transition-colors cursor-pointer bg-white p-4 overflow-hidden">
-                <Image
-                  src="/brands/ellepi-65-1561560231.jpg"
-                  alt="Brand Logo"
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div className="aspect-square border border-gray-200 rounded-sm flex items-center justify-center hover:border-burgundy transition-colors cursor-pointer bg-white p-4 overflow-hidden">
-                <Image
-                  src="/brands/FILA-Logo-(High-Res)-0.webp"
-                  alt="Brand Logo"
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div className="aspect-square border border-gray-200 rounded-sm flex items-center justify-center hover:border-burgundy transition-colors cursor-pointer bg-white p-4 overflow-hidden">
-                <Image
-                  src="/brands/Raggruppa-320.png"
-                  alt="Brand Logo"
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div className="aspect-square border border-gray-200 rounded-sm flex items-center justify-center hover:border-burgundy transition-colors cursor-pointer bg-white p-4 overflow-hidden">
-                <Image
-                  src="/brands/WhatsApp Image 2025-12-15 at 21.36.11.jpeg"
-                  alt="Brand Logo"
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div className="aspect-square border border-gray-200 rounded-sm flex items-center justify-center hover:border-burgundy transition-colors cursor-pointer bg-white p-4 overflow-hidden">
-                <Image
-                  src="/brands/WhatsApp Image 2025-12-15 at 21.40.28.jpeg"
-                  alt="Brand Logo"
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-            </div>
+            <BrandCarousel />
           </div>
         </section>
       </main>

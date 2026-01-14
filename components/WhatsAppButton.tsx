@@ -4,7 +4,9 @@ import { FaWhatsapp } from 'react-icons/fa';
 import Link from 'next/link';
 
 export default function WhatsAppButton() {
-  const whatsappUrl = 'https://wa.me/393534322057?text=Ciao%20vorrei%20info%20sui%20prodotti';
+  // Update WhatsApp number - replace with your number
+  const whatsappNumber = '393715712490'; // Format: country code + number without +
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Ciao%20vorrei%20info%20sui%20prodotti`;
 
   return (
     <Link

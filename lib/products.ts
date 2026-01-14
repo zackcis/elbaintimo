@@ -14,6 +14,10 @@ export interface Product {
   descriptionEn: string;
   badge?: 'NEW' | 'SALE';
   inStock: boolean;
+  // Pack product fields
+  isPack?: boolean;
+  packQuantity?: number; // Fixed quantity for pack (default: 3)
+  packColors?: string[]; // Array of color codes/names included in the pack
 }
 
 export const products: Product[] = [
@@ -954,6 +958,67 @@ export const products: Product[] = [
     descriptionEn: 'Sheer over-the-knee socks. Elegant and refined.',
     inStock: true,
   },
+  // Pack Products - 3-item packs
+  {
+    id: 'pack-slip-3',
+    name: 'Pack di 3 Slip Pizzo',
+    nameEn: 'Pack of 3 Lace Panties',
+    brand: 'Intimissimi',
+    price: 44.90,
+    originalPrice: 59.70,
+    images: ['/media/RID2576937J-FI.jpg', '/media/RID2581942J-FI.jpg', '/media/RSD2577938J-FI.jpg'],
+    category: 'intimo',
+    subcategory: 'slip',
+    colors: 3,
+    sizes: ['S', 'M', 'L'],
+    description: 'Pack di 3 slip in pizzo elegante. Include 3 colori diversi in un unico set conveniente.',
+    descriptionEn: 'Pack of 3 elegant lace panties. Includes 3 different colors in one convenient set.',
+    badge: 'SALE',
+    inStock: true,
+    isPack: true,
+    packQuantity: 3,
+    packColors: ['#DC143C', '#000000', '#FFFFFF'],
+  },
+  {
+    id: 'pack-reggiseno-3',
+    name: 'Pack di 3 Reggiseni Pizzo',
+    nameEn: 'Pack of 3 Lace Bras',
+    brand: 'Calzedonia',
+    price: 89.90,
+    originalPrice: 119.70,
+    images: ['/media/RBD2576937J-FI.jpg', '/media/RBD2578019-FI.jpg', '/media/RSD2577938J-FI.jpg'],
+    category: 'intimo',
+    subcategory: 'reggiseni',
+    colors: 3,
+    sizes: ['II', 'III', 'IV'],
+    description: 'Pack di 3 reggiseni in pizzo. Include 3 colori classici per ogni occasione.',
+    descriptionEn: 'Pack of 3 lace bras. Includes 3 classic colors for every occasion.',
+    badge: 'NEW',
+    inStock: true,
+    isPack: true,
+    packQuantity: 3,
+    packColors: ['#DC143C', '#000000', '#8B0000'],
+  },
+  {
+    id: 'pack-intimo-3',
+    name: 'Pack di 3 Set Intimo Completo',
+    nameEn: 'Pack of 3 Complete Lingerie Sets',
+    brand: 'Tezenis',
+    price: 129.90,
+    originalPrice: 179.70,
+    images: ['/media/RSD2577938J-FI.jpg', '/media/RBD2576937J-FI.jpg', '/media/SBD2577938J-FI.jpg'],
+    category: 'intimo',
+    subcategory: 'reggiseni',
+    colors: 3,
+    sizes: ['S', 'M', 'L'],
+    description: 'Pack di 3 set intimo completi (reggiseno + slip). Include 3 combinazioni di colori eleganti.',
+    descriptionEn: 'Pack of 3 complete lingerie sets (bra + panty). Includes 3 elegant color combinations.',
+    badge: 'SALE',
+    inStock: true,
+    isPack: true,
+    packQuantity: 3,
+    packColors: ['#FF69B4', '#DC143C', '#8B0000'],
+  },
 ];
 
 export function getProductsByCategory(category: string): Product[] {
@@ -966,5 +1031,15 @@ export function getProductById(id: string): Product | undefined {
 
 export function getProductsBySubcategory(category: string, subcategory: string): Product[] {
   return products.filter(p => p.category === category && p.subcategory === subcategory);
+}
+
+export function getRelatedProducts(productId: string, brand: string, limit: number = 6): Product[] {
+  return products
+    .filter(p => p.id !== productId && p.brand === brand)
+    .slice(0, limit);
+}
+
+export function getProductsByBrand(brand: string): Product[] {
+  return products.filter(p => p.brand === brand);
 }
 
