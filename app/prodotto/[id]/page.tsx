@@ -5,10 +5,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getProductById, getRelatedProducts } from '@/lib/products';
+import { getProductById, getRelatedProducts, getSeasonalProducts, getMostLikedProducts } from '@/lib/products';
 import { HiHeart, HiMinus, HiPlus, HiShoppingBag } from 'react-icons/hi';
 import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
+import ProductCarousel from '@/components/ProductCarousel';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { t, language } = useLanguage();
@@ -22,7 +22,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   // For pack products, quantity is fixed at 3
   const isPack = product?.isPack ?? false;
   const packQuantity = product?.packQuantity ?? 3;
-  const relatedProducts = product ? getRelatedProducts(product.id, product.brand, 6) : [];
+  const relatedProducts = product ? getRelatedProducts(product.id, product.brand, 8) : [];
+  const seasonalProducts = getSeasonalProducts(8);
+  const mostLikedProducts = getMostLikedProducts(8);
 
   const colors = ['red', '#8B0000', '#DC143C'];
   const careIcons = [
@@ -467,36 +469,29 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          {/* Related Products Section */}
+          {/* Related Products by Brand Carousel */}
           {relatedProducts.length > 0 && (
             <div className="mt-16 pt-16 border-t border-gray-200">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-8 text-center">
-                {language === 'it' ? 'Potrebbe Piacerti Anche' : 'You Might Also Like'}
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {relatedProducts.map((relatedProduct) => (
-                  <Link key={relatedProduct.id} href={`/prodotto/${relatedProduct.id}`}>
-                    <ProductCard
-                      image={relatedProduct.images[0]}
-                      brand={relatedProduct.brand}
-                      name={language === 'it' ? relatedProduct.name : relatedProduct.nameEn}
-                      price={`€${relatedProduct.price.toFixed(2).replace('.', ',')}`}
-                      originalPrice={relatedProduct.originalPrice ? `€${relatedProduct.originalPrice.toFixed(2).replace('.', ',')}` : undefined}
-                      colors={relatedProduct.colors}
-                      badge={relatedProduct.badge}
-                      isPack={relatedProduct.isPack}
-                      packColors={relatedProduct.packColors}
-                      colorSwatches={relatedProduct.isPack 
-                        ? relatedProduct.packColors
-                        : (relatedProduct.category === 'intimo' 
-                          ? ['#DC143C', '#000000', '#FFFFFF', '#8B0000'].slice(0, relatedProduct.colors)
-                          : ['#FF69B4', '#000000', '#FFFFFF'].slice(0, relatedProduct.colors))}
-                    />
-                  </Link>
-                ))}
-              </div>
+              <ProductCarousel
+                products={relatedProducts}
+                title={language === 'it' ? 'Prodotti Correlati dello Stesso Marchio' : 'Related Products from Same Brand'}
+                showArrows={true}
+                showDots={true}
+              />
             </div>
           )}
+
+          {/* Seasonal / Most Liked Products Carousel */}
+          <div className="mt-16 pt-16 border-t border-gray-200">
+            <ProductCarousel
+              products={seasonalProducts.length > 0 ? seasonalProducts : mostLikedProducts}
+              title={language === 'it' 
+                ? (seasonalProducts.length > 0 ? 'Prodotti Stagionali' : 'I Più Amati')
+                : (seasonalProducts.length > 0 ? 'Seasonal Products' : 'Most Liked')}
+              showArrows={true}
+              showDots={true}
+            />
+          </div>
         </div>
       </main>
       <Footer />

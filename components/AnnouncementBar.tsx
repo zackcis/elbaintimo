@@ -11,7 +11,7 @@ export default function AnnouncementBar() {
     : '🎉 NEW 2025 COLLECTION • FREE SHIPPING ON ORDERS OVER €49 • FREE RETURNS WITHIN 30 DAYS • UP TO 50% OFF •';
 
   return (
-    <div className="bg-black text-white py-2 overflow-hidden relative">
+    <div className="bg-black text-white py-2.5 md:py-3 overflow-hidden relative border-b border-gray-800">
       <div className="overflow-hidden whitespace-nowrap">
         <div 
           className="inline-flex animate-marquee"
@@ -19,9 +19,9 @@ export default function AnnouncementBar() {
             animation: 'marquee 30s linear infinite',
           }}
         >
-          <span className="inline-block whitespace-nowrap px-4">{announcementText}</span>
-          <span className="inline-block whitespace-nowrap px-4">{announcementText}</span>
-          <span className="inline-block whitespace-nowrap px-4">{announcementText}</span>
+          <span className="inline-block whitespace-nowrap px-4 text-xs md:text-sm font-semibold">{announcementText}</span>
+          <span className="inline-block whitespace-nowrap px-4 text-xs md:text-sm font-semibold">{announcementText}</span>
+          <span className="inline-block whitespace-nowrap px-4 text-xs md:text-sm font-semibold">{announcementText}</span>
         </div>
       </div>
       <style jsx global>{`

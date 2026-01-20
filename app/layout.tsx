@@ -3,6 +3,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import LanguageAwareScript from "@/components/LanguageAwareScript";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
   title: "ElbaIntimo - Intimo, Pigiami e Beachwear",
@@ -21,6 +22,7 @@ export default function RootLayout({
           <LanguageAwareScript />
           {children}
           <WhatsAppButton />
+          <BackToTop />
         </LanguageProvider>
       </body>
     </html>

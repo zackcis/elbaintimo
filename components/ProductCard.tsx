@@ -30,7 +30,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const { t, language } = useLanguage();
   return (
-    <div className="flex-shrink-0 w-64 group cursor-pointer">
+    <div className="flex-shrink-0 w-full group cursor-pointer">
       <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 rounded-sm mb-3">
         <Image
           src={image}
@@ -40,14 +40,14 @@ export default function ProductCard({
           sizes="(max-width: 768px) 100vw, 256px"
         />
         {badge && (
-          <div className={`absolute top-2 left-2 px-2 py-1 text-xs font-semibold uppercase ${
-            badge === 'NEW' ? 'bg-purple-600 text-white' : 'bg-red-600 text-white'
+          <div className={`absolute top-2 left-2 px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase rounded-sm shadow-md ${
+            badge === 'NEW' ? 'bg-pink-500 text-white' : 'bg-red-600 text-white'
           }`}>
-            {badge === 'NEW' ? (language === 'it' ? 'Novità!' : 'New!') : (language === 'it' ? 'Saldi' : 'Sale')}
+            {badge === 'NEW' ? (language === 'it' ? 'Novità!' : 'New!') : (language === 'it' ? 'Saldi -21%' : 'Sale -21%')}
           </div>
         )}
         {badge === 'NEW' && (
-          <div className="absolute top-10 left-2 px-2 py-1 text-xs font-semibold uppercase bg-green-600 text-white">
+          <div className="absolute top-10 left-2 px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase bg-green-600 text-white rounded-sm shadow-md">
             {language === 'it' ? 'Spedizione Gratis' : 'Free Shipping'}
           </div>
         )}

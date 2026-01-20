@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { HiMenu, HiX, HiSearch, HiHeart, HiUser, HiShoppingBag } from 'react-icons/hi';
 import MobileSidebar from './MobileSidebar';
@@ -15,7 +15,26 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const [headerHeight, setHeaderHeight] = useState(80);
   const { t, language } = useLanguage();
+
+  // Calculate header bottom position dynamically
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        const rect = headerRef.current.getBoundingClientRect();
+        setHeaderHeight(rect.bottom);
+      }
+    };
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+    window.addEventListener('scroll', updateHeaderHeight);
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight);
+      window.removeEventListener('scroll', updateHeaderHeight);
+    };
+  }, []);
 
   // Handle mouse enter with delay prevention
   const handleMouseEnter = (navItem: string) => {
@@ -60,7 +79,7 @@ export default function Header() {
     {
       id: 'brands',
       label: language === 'it' ? 'MARCHE' : 'BRANDS',
-      href: '#brands',
+      href: '/brands',
       hasMegaMenu: false,
       brands: brands,
     },
@@ -72,25 +91,28 @@ export default function Header() {
       <AnnouncementBar />
 
       {/* Main Header */}
-      <header className="bg-white sticky top-0 z-50 border-b border-gray-200">
+      <header ref={headerRef} className="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-gray-700 hover:text-burgundy"
-              aria-label={t.ariaLabels.openMenu}
-            >
-              <HiMenu className="w-6 h-6" />
-            </button>
+          <div className="flex items-center justify-between gap-3 h-16 md:h-20">
+            {/* Left Side: Hamburger Menu + Logo */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="lg:hidden p-2 text-gray-700 hover:text-burgundy transition-colors z-10"
+                aria-label={t.ariaLabels.openMenu}
+              >
+                <HiMenu className="w-6 h-6" />
+              </button>
 
-            {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <h1 className="text-2xl font-serif font-bold text-burgundy">ElbaIntimo</h1>
-            </Link>
+              {/* Logo */}
+              <Link href="/" className="flex items-center z-10" style={{ maxWidth: '150px' }}>
+                <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl font-serif font-bold text-burgundy whitespace-nowrap truncate">ElbaIntimo</h1>
+              </Link>
+            </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            {/* Center: Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
               {navItems.map((item) => (
                 <div
                   key={item.id}
@@ -116,7 +138,7 @@ export default function Header() {
                   {item.hasMegaMenu && item.megaMenuData && hoveredNav === item.id && (
                     <div 
                       className="fixed left-0 w-full pointer-events-none z-50" 
-                      style={{ top: '80px' }}
+                      style={{ top: `${headerHeight}px` }}
                       onMouseEnter={() => handleMouseEnter(item.id)}
                       onMouseLeave={handleMouseLeave}
                     >
@@ -161,34 +183,34 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Right Icons */}
-            <div className="flex items-center space-x-4">
+            {/* Right Side: Language Switcher + Search + Account + Cart */}
+            <div className="flex items-center gap-3 flex-shrink-0 z-10">
               <LanguageSwitcher />
               <button
-                className="p-2 text-gray-700 hover:text-burgundy"
+                className="p-2 text-gray-700 hover:text-burgundy transition-colors"
                 aria-label={t.ariaLabels.search}
               >
-                <HiSearch className="w-5 h-5" />
+                <HiSearch className="w-5 h-5 md:w-6 md:h-6" />
               </button>
               <button
-                className="p-2 text-gray-700 hover:text-burgundy relative"
+                className="hidden md:block p-2 text-gray-700 hover:text-burgundy transition-colors"
                 aria-label={t.ariaLabels.wishlist}
               >
                 <HiHeart className="w-5 h-5" />
               </button>
               <button
-                className="p-2 text-gray-700 hover:text-burgundy"
+                className="p-2 text-gray-700 hover:text-burgundy transition-colors"
                 aria-label={t.ariaLabels.account}
               >
-                <HiUser className="w-5 h-5" />
+                <HiUser className="w-5 h-5 md:w-6 md:h-6" />
               </button>
               <a
                 href="/carrello"
-                className="p-2 text-gray-700 hover:text-burgundy relative"
+                className="p-2 text-gray-700 hover:text-burgundy relative transition-colors"
                 aria-label={t.ariaLabels.cart}
               >
-                <HiShoppingBag className="w-5 h-5" />
-                <span className="absolute top-0 right-0 bg-burgundy text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <HiShoppingBag className="w-5 h-5 md:w-6 md:h-6" />
+                <span className="absolute top-0 right-0 bg-burgundy text-white text-xs rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-[10px] md:text-xs">
                   2
                 </span>
               </a>

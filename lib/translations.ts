@@ -69,6 +69,31 @@ export const translations = {
       seeAll: 'VEDI TUTTO',
       colors: 'colori',
     },
+    // Featured Sections
+    featured: {
+      bras: {
+        title: 'REGGISENI',
+        allBras: 'TUTTI I REGGISENI',
+      },
+      tights: {
+        title: 'COLLANT',
+        allTights: 'TUTTI I COLLANT',
+      },
+      filters: {
+        newArrivals: 'NUOVI ARRIVI',
+        bestSellers: 'I PIÙ VENDUTI',
+        mostViewed: 'I PIÙ VISTI',
+        mostReviewed: 'I PIÙ RECENSITI',
+        mostConvenient: 'I PIÙ CONVENIENTI',
+      },
+    },
+    // Gender Tiles
+    gender: {
+      donna: 'DONNA',
+      uomo: 'UOMO',
+      bambino: 'BAMBINO',
+      bambina: 'BAMBINA',
+    },
     // Summer Sale
     summerSale: {
       specialOffer: 'OFFERTA SPECIALE',
@@ -82,6 +107,13 @@ export const translations = {
     brands: {
       title: 'I Nostri Marchi',
       subtitle: 'Una selezione curata dei migliori marchi italiani e internazionali',
+      allBrands: 'Tutti i brand',
+    },
+    // Promotional Sale
+    promotionalSale: {
+      title: 'OFFERTE SPECIALI',
+      subtitle: 'SOTTOCOSTO',
+      cta: 'GUARDA TUTTE LE OFFERTE',
     },
     // Footer
     footer: {
@@ -250,6 +282,31 @@ export const translations = {
       seeAll: 'SEE ALL',
       colors: 'colors',
     },
+    // Featured Sections
+    featured: {
+      bras: {
+        title: 'BRAS',
+        allBras: 'ALL BRAS',
+      },
+      tights: {
+        title: 'TIGHTS',
+        allTights: 'ALL TIGHTS',
+      },
+      filters: {
+        newArrivals: 'NEW ARRIVALS',
+        bestSellers: 'BEST SELLERS',
+        mostViewed: 'MOST VIEWED',
+        mostReviewed: 'MOST REVIEWED',
+        mostConvenient: 'THE MOST CONVENIENT',
+      },
+    },
+    // Gender Tiles
+    gender: {
+      donna: 'WOMAN',
+      uomo: 'MAN',
+      bambino: 'CHILD',
+      bambina: 'GIRL',
+    },
     // Summer Sale
     summerSale: {
       specialOffer: 'SPECIAL OFFER',
@@ -263,6 +320,13 @@ export const translations = {
     brands: {
       title: 'Our Brands',
       subtitle: 'A curated selection of the best Italian and international brands',
+      allBrands: 'All Brands',
+    },
+    // Promotional Sale
+    promotionalSale: {
+      title: 'SPECIAL OFFERS',
+      subtitle: 'UNDERCOST',
+      cta: 'SEE ALL OFFERS',
     },
     // Footer
     footer: {

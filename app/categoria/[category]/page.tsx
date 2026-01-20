@@ -17,6 +17,7 @@ type FilterType = {
   brands: string[];
   sizes: string[];
   badges: string[];
+  materials: string[];
 };
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
@@ -27,6 +28,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
     brands: [],
     sizes: [],
     badges: [],
+    materials: [],
   });
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'newest' | 'popular'>('popular');
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,6 +44,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
   const availableSizes = useMemo(() => {
     return Array.from(new Set(categoryProducts.flatMap(p => p.sizes)));
+  }, [categoryProducts]);
+
+  const availableMaterials = useMemo(() => {
+    const allMaterials = categoryProducts
+      .flatMap(p => p.material || [])
+      .filter(Boolean);
+    return Array.from(new Set(allMaterials)).sort();
   }, [categoryProducts]);
 
   const filteredProducts = useMemo(() => {
@@ -63,6 +72,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
     // Filter by badges
     if (filters.badges.length > 0) {
       filtered = filtered.filter(p => p.badge && filters.badges.includes(p.badge));
+    }
+
+    // Filter by materials
+    if (filters.materials.length > 0) {
+      filtered = filtered.filter(p => 
+        p.material && p.material.some(m => filters.materials.includes(m))
+      );
     }
 
     // Sort
@@ -123,12 +139,22 @@ export default function CategoryPage({ params }: { params: { category: string } 
     }));
   };
 
+  const toggleMaterial = (material: string) => {
+    setFilters(prev => ({
+      ...prev,
+      materials: prev.materials.includes(material)
+        ? prev.materials.filter(m => m !== material)
+        : [...prev.materials, material],
+    }));
+  };
+
   const clearFilters = () => {
     setFilters({
       priceRange: [0, 200],
       brands: [],
       sizes: [],
       badges: [],
+      materials: [],
     });
   };
 
@@ -400,6 +426,28 @@ export default function CategoryPage({ params }: { params: { category: string } 
                       </label>
                     </div>
                   </div>
+
+                  {/* Materials */}
+                  {availableMaterials.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="font-medium mb-3">
+                        {language === 'it' ? 'Materiale' : 'Material'}
+                      </h3>
+                      <div className="space-y-2">
+                        {availableMaterials.map(material => (
+                          <label key={material} className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={filters.materials.includes(material)}
+                              onChange={() => toggleMaterial(material)}
+                              className="mr-2"
+                            />
+                            <span className="text-sm">{material}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </aside>
 
@@ -435,12 +483,12 @@ export default function CategoryPage({ params }: { params: { category: string } 
                   </select>
                 </div>
 
-                {/* Products */}
+                {/* Products - 2 Column Mobile Grid */}
                 {paginatedProducts.length > 0 ? (
                   <>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                       {paginatedProducts.map((product) => (
-                        <Link key={product.id} href={`/prodotto/${product.id}`}>
+                        <Link key={product.id} href={`/prodotto/${product.id}`} className="block w-full">
                           <ProductCard
                             image={product.images[0]}
                             brand={product.brand}

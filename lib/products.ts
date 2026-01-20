@@ -14,6 +14,7 @@ export interface Product {
   descriptionEn: string;
   badge?: 'NEW' | 'SALE';
   inStock: boolean;
+  material?: string[]; // Array of materials (e.g., ['Cotone', 'Pizzo', 'Satin'])
   // Pack product fields
   isPack?: boolean;
   packQuantity?: number; // Fixed quantity for pack (default: 3)
@@ -38,6 +39,7 @@ export const products: Product[] = [
     descriptionEn: 'Elegant black lace set with push-up bra and panty. Perfect for a refined and sensual look.',
     badge: 'SALE',
     inStock: true,
+    material: ['Pizzo'],
   },
   {
     id: 'rbd2578019',
@@ -54,6 +56,7 @@ export const products: Product[] = [
     descriptionEn: 'Red lace bra with underwire and adjustable straps. Maximum comfort and support.',
     badge: 'NEW',
     inStock: true,
+    material: ['Pizzo'],
   },
   {
     id: 'bod2577938j',
@@ -70,6 +73,7 @@ export const products: Product[] = [
     descriptionEn: 'Elegant and refined white lace bodysuit. Perfect for special occasions.',
     badge: 'NEW',
     inStock: true,
+    material: ['Pizzo'],
   },
   {
     id: 'rsd2577938j',
@@ -85,6 +89,7 @@ export const products: Product[] = [
     description: 'Set in satin con reggiseno senza ferretto e slip classico. Comfort e stile.',
     descriptionEn: 'Satin set with wire-free bra and classic panty. Comfort and style.',
     inStock: true,
+    material: ['Satin'],
   },
   {
     id: 'rid2581942j',
@@ -100,6 +105,7 @@ export const products: Product[] = [
     description: 'Slip in pizzo con fantasia elegante. Taglio classico e comfort garantito.',
     descriptionEn: 'Lace panty with elegant pattern. Classic cut and guaranteed comfort.',
     inStock: true,
+    material: ['Pizzo'],
   },
   {
     id: 'sbd2577938j',
@@ -115,6 +121,7 @@ export const products: Product[] = [
     description: 'Set lingerie in satin rosa con dettagli in pizzo. Femminile e romantico.',
     descriptionEn: 'Pink satin lingerie set with lace details. Feminine and romantic.',
     inStock: true,
+    material: ['Satin', 'Pizzo'],
   },
   // Pigiami products
   {
@@ -132,6 +139,7 @@ export const products: Product[] = [
     descriptionEn: 'Elegant satin pajamas with long pants and shirt. Maximum comfort for the night.',
     badge: 'NEW',
     inStock: true,
+    material: ['Satin'],
   },
   {
     id: 'pcn12s1467',
@@ -147,6 +155,7 @@ export const products: Product[] = [
     description: 'Pigiama corto perfetto per l\'estate. Taglio comodo e tessuto traspirante.',
     descriptionEn: 'Short pajamas perfect for summer. Comfortable cut and breathable fabric.',
     inStock: true,
+    material: ['Cotone'],
   },
   {
     id: 'pld2576945j',
@@ -212,6 +221,7 @@ export const products: Product[] = [
     description: 'Collant in tulle elegante con applicazioni strass. Perfetto per occasioni speciali.',
     descriptionEn: 'Elegant tulle tights with rhinestone applications. Perfect for special occasions.',
     inStock: true,
+    material: ['Tulle'],
   },
   {
     id: 'gcd0383',
@@ -622,6 +632,7 @@ export const products: Product[] = [
     description: 'Slip invisibile in cotone. Perfetto sotto ogni abito.',
     descriptionEn: 'Invisible cotton panty. Perfect under any dress.',
     inStock: true,
+    material: ['Cotone'],
   },
   // Pigiami - Lunghi
   {
@@ -653,6 +664,7 @@ export const products: Product[] = [
     description: 'Pigiama lungo in cotone. Perfetto per ogni stagione.',
     descriptionEn: 'Long cotton pajamas. Perfect for every season.',
     inStock: true,
+    material: ['Cotone'],
   },
   // Pigiami - Corti
   {
@@ -732,6 +744,7 @@ export const products: Product[] = [
     description: 'Dolcevita in cotone morbido. Perfetto per l\'inverno.',
     descriptionEn: 'Soft cotton turtleneck. Perfect for winter.',
     inStock: true,
+    material: ['Cotone'],
   },
   // Maglie - Maniche lunghe
   {
@@ -748,6 +761,7 @@ export const products: Product[] = [
     description: 'Maglia a maniche lunghe in cotone. Comoda e versatile.',
     descriptionEn: 'Long sleeve cotton top. Comfortable and versatile.',
     inStock: true,
+    material: ['Cotone'],
   },
   // Maglie - Maniche corte
   {
@@ -1043,3 +1057,35 @@ export function getProductsByBrand(brand: string): Product[] {
   return products.filter(p => p.brand === brand);
 }
 
+export function getSeasonalProducts(limit: number = 8): Product[] {
+  // Get products with NEW badge (seasonal/new arrivals)
+  const seasonal = products
+    .filter(p => p.badge === 'NEW')
+    .slice(0, limit);
+  
+  // If not enough NEW products, add SALE products
+  if (seasonal.length < limit) {
+    const saleProducts = products
+      .filter(p => p.badge === 'SALE' && !seasonal.find(sp => sp.id === p.id))
+      .slice(0, limit - seasonal.length);
+    return [...seasonal, ...saleProducts];
+  }
+  
+  return seasonal;
+}
+
+export function getMostLikedProducts(limit: number = 8): Product[] {
+  // Get products with badges (NEW or SALE) as "most liked"
+  // In a real app, this would be based on actual user interactions/ratings
+  const mostLiked = products
+    .filter(p => p.badge === 'NEW' || p.badge === 'SALE')
+    .sort((a, b) => {
+      // Prioritize NEW over SALE
+      if (a.badge === 'NEW' && b.badge !== 'NEW') return -1;
+      if (a.badge !== 'NEW' && b.badge === 'NEW') return 1;
+      return 0;
+    })
+    .slice(0, limit);
+  
+  return mostLiked;
+}
